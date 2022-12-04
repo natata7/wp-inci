@@ -1,23 +1,24 @@
 <?php
+
 /**
  * WP INCI
  *
- * @package           
- * @author            
- * @copyright         
- * @license           GPLv3+
+ * @category  Plugin
+ * @package   Wpinci
+ * @author    chyta
+ * @copyright 2022 chyta
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL 3
  *
  * @wordpress-plugin
- * Plugin Name:       Ingredients manager
- * Plugin URI:        
+ * Plugin Name:       WP INCI
  * Description:       A WordPress plugin to manage INCI (International Nomenclature of Cosmetic Ingredients).
- * Version:           1
+ * Version:           1.6.0
  * Requires at least: 5.2
- * Requires PHP:      7.0
- * Author:            
- * Author URI:        
- * License:           
- * License URI:       
+ * Requires PHP:      7.4
+ * Author:            chyta
+ * Author URI:        https://chyta.online
+ * License:           GPLv3+
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       wp-inci
  * Domain Path:       /languages
  *
@@ -35,43 +36,21 @@
  * along with WP INCI. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
  */
 
-/**
- * Extended CPTs library.
- */
-if ( file_exists( __DIR__ . '/vendor/johnbillion/extended-cpts/extended-cpts.php' ) ) {
-	require_once __DIR__ . '/vendor/johnbillion/extended-cpts/extended-cpts.php';
+define('WPINCI_BASE_PATH', plugin_dir_path(__FILE__));
+define('WPINCI_BASE_URL', plugins_url());
+
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/cmb2/cmb2/init.php';
+require_once __DIR__ . '/class-wp-inci.php';
+require_once __DIR__ . '/class-wp-inci-fields.php';
+
+if (is_admin()) {
+    include_once __DIR__ . '/admin/class-wp-inci-admin.php';
+    include_once __DIR__ . '/admin/class-wp-inci-meta.php';
+} else {
+    include_once __DIR__ . '/public/class-wp-inci-frontend.php';
 }
 
-/**
- * CMB2 library.
- */
-if ( file_exists( __DIR__ . '/vendor/cmb2/cmb2/init.php' ) ) {
-	require_once __DIR__ . '/vendor/cmb2/cmb2/init.php';
-}
-
-/**
- * Main plugin class.
- */
-if ( file_exists( __DIR__ . '/class-wp-inci.php' ) ) {
-	require_once __DIR__ . '/class-wp-inci.php';
-}
-
-/**
- * CMB2 Fields.
- */
-if ( file_exists( __DIR__ . '/class-wp-inci-fields.php' ) ) {
-	require_once __DIR__ . '/class-wp-inci-fields.php';
-}
-
-
-if ( is_admin() ) {
-	if ( file_exists( __DIR__ . '/admin/class-wp-inci-admin.php' ) ) {
-		require_once __DIR__ . '/admin/class-wp-inci-admin.php';
-	}
-	if ( file_exists( __DIR__ . '/admin/class-wp-inci-meta.php' ) ) {
-		require_once __DIR__ . '/admin/class-wp-inci-meta.php';
-	}
-
-} else if ( file_exists( __DIR__ . '/public/class-wp-inci-frontend.php' ) ) {
-	require_once __DIR__ . '/public/class-wp-inci-frontend.php';
+foreach (glob(__DIR__ . "/blocks/*.php") as $filename) {
+    include_once $filename;
 }

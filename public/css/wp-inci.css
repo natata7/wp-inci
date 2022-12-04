@@ -32,6 +32,12 @@ table.wp-inci td:first-child {
     line-height: initial
 }
 
+table.wp-inci td.nofirst {
+    min-width: 100% !important;
+    width: 100% !important;
+    padding-bottom: 10px
+}
+
 table.wp-inci .disclaimer {
     font-size: small
 }

@@ -3,7 +3,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP INCI 1.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-inci\n"
 "POT-Creation-Date: 2020-08-23T19:01:04+00:00\n"
 "PO-Revision-Date: 2020-08-23 20:28+0100\n"
 "Last-Translator: \n"
@@ -21,10 +20,6 @@ msgstr ""
 msgid "WP INCI"
 msgstr "WP INCI"
 
-#. Plugin URI of the plugin
-msgid "https://wordpress.org/plugins/wp-inci/"
-msgstr "https://wordpress.org/plugins/wp-inci/"
-
 #. Description of the plugin
 msgid ""
 "A WordPress plugin to manage INCI (International Nomenclature of Cosmetic "
@@ -32,14 +27,6 @@ msgid ""
 msgstr ""
 "A WordPress plugin to manage INCI (International Nomenclature of Cosmetic "
 "Ingredients)."
-
-#. Author of the plugin
-msgid "xlthlx"
-msgstr "xlthlx"
-
-#. Author URI of the plugin
-msgid "https://piccioni.london"
-msgstr "https://piccioni.london"
 
 #: admin/class-wp-inci-meta.php:62 admin/class-wp-inci-meta.php:69
 #: class-wp-inci.php:309

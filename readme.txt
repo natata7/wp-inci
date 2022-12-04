@@ -1,11 +1,10 @@
 === WP INCI ===
-Contributors: xlthlx
-Donate link: https://paypal.me/xlthlx
+Contributors: chyta
 Tags: inci, ingredients, cosmetics, make-up
 Requires at least: 5.2
-Tested up to: 5.5
+Tested up to: 6.1
 Stable tag: 5.2
-Requires PHP: 7.0
+Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,60 +30,18 @@ If you need a different way to display it, you can:
     Example: [wp_inci_product id="33591" link="true"]
     3. remove the ingredients listing
     Example: [wp_inci_product id="33591" link="true" list="false"]
+    4. remove the safety from ingredients listing
+    Example: [wp_inci_product id="33591" safety="false"]
 
 * Languages: English, Italian.
-
-== Support ==
-
-If you need support or have a feature request, please use the [support forum](https://wordpress.org/support/plugin/wp-inci/).
-
-== Screenshots ==
-
-1. Ingredients list and single ingredient
-2. Product list and single product
-3. How to manage options
-4. How to use the product shortcode
-5. Post example
-
-== Changelog ==
-
-= 1.1.2 =
-* Bugfix
-
-= 1.1.1 =
-* Changed admin icon
-* Support for blocks
-
-= 1.1.0 =
-* New: ingredients multiple search
-
-= 1.0.2 =
-* Fixed CSS
-* Added safety to ingredients list
-
-= 1.0.1 =
-* Tested up to 5.5
-* Bugfix
-
-= 1.0 =
-* First release
-
-== Upgrade Notice ==
-
-N/A
-
-== Installation ==
-
-1. Upload `wp-inci` folder to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'PluginAmazon packages of free goods which are arriving through people's doorss' menu in WordPress
-4. Enjoy
 
 == Credits ==
 * [CMB2](https://en-gb.wordpress.org/plugins/cmb2/) by [CMB2 team](https://cmb2.io/)
 * [Extended CPTs](https://github.com/johnbillion/extended-cpts) by [John Blackbourn](https://johnblackbourn.com/)
+* [Carbon Fields](https://github.com/htmlburger/carbon-fields) by [htmlBurger](https://htmlburger.com/)
 
 == Frequently Asked Questions ==
 
 = Can I translate the plugin interface? =
 
-Yes, just edit the .POT file in the `languages` folder.
+Yes, just use the .POT file in the `languages` folder.
