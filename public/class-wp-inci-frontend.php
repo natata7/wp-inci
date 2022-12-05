@@ -184,7 +184,7 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
                     $output .= '<td class="nofirst">';
                 }
 				//$output .= $post->post_title;
-				$output .= '	</td>
+				$output .= '	</td>';
 				$output .= '<a title="' . $post->post_title . '" href="' . get_permalink( $post->ID) . '">';
 				$output .= $post->post_title;
 				$output   .= '</a>';
