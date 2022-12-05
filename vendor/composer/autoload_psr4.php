@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'eftec\\bladeone\\' => array($vendorDir . '/eftec/bladeone/lib'),
     'WP_CLI\\I18n\\' => array($vendorDir . '/wp-cli/i18n-command/src'),
-    'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Peast\\test\\' => array($vendorDir . '/mck89/peast/test/Peast'),
     'Peast\\' => array($vendorDir . '/mck89/peast/lib/Peast'),
