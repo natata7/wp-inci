@@ -37,7 +37,7 @@ function Wi_Get_products(): array
     $results = [];
 
     $args = array(
-    'post_type' => array( 'product' ),
+    'post_type' => array( 'products' ),
     'post_status' => 'publish',
     'order' => 'ASC',
     'ordeby' => 'title'
@@ -66,11 +66,11 @@ function Wi_Get_products(): array
  */
 function Wi_Product_block()
 {
-    Block::make(__('Product', 'wp-inci'))
+    Block::make(__('Products', 'wp-inci'))
         ->add_fields(
             [
              Field::make('text', 'title', __('Custom title', 'wp-inci'))->set_help_text('Leave blank to show the product title'),
-             Field::make('select', 'product', __('Select product', 'wp-inci'))->add_options('wi_get_products'),
+             Field::make('select', 'products', __('Select product', 'wp-inci'))->add_options('wi_get_products'),
              Field::make('checkbox', 'linked', __('Show link', 'wp-inci'))->set_option_value('yes'),
              Field::make('checkbox', 'list', __('Hide ingredient list', 'wp-inci'))->set_option_value('yes'),
             Field::make('checkbox', 'safety', __('Hide safety', 'wp-inci'))->set_option_value('yes')->set_conditional_logic(
@@ -105,7 +105,7 @@ function Wi_Product_block()
                 }
 
                 if ($fields['linked'] ) {
-                    $start = '<h3><a title="' . $title . '" href="' . get_permalink($fields['product']) . '">';
+                    $start = '<h3><a title="' . $title . '" href="' . get_permalink($fields['products']) . '">';
                     $end   = '</a></h3>';
                 }
 
@@ -119,7 +119,7 @@ function Wi_Product_block()
 
                 if (! $fields['list'] ) {
                     echo ( Wp_Inci_Frontend::getInstanceFrontend() )->getIngredientsTable(
-                        $fields['product'],
+                        $fields['products'],
                         $safety
                     );
                 }

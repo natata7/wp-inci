@@ -190,14 +190,14 @@ if (!class_exists('WP_Inci', false)) {
 
 
             register_extended_post_type(
-                'ingredient',
+                'ingredients',
                 array(
-                    'publicly_queryable' => false,
+                    'publicly_queryable' => true,
                     'menu_icon'          => 'dashicons-wi-menu',
-                    'rewrite'            => false,
+                    'rewrite'            => true,
                     'labels'             => $ingredients_labels,
                     'capability_type'    => 'page',
-                    'has_archive'        => false,
+                    'has_archive'        => true,
                     'hierarchical'       => false,
                     'show_in_rest'       => true,
                     'block_editor'       => true,
@@ -254,7 +254,7 @@ if (!class_exists('WP_Inci', false)) {
 
                     'singular' => __('Ingredient', 'wp-inci'),
                     'plural'   => __('Ingredients', 'wp-inci'),
-                    'slug'     => __('ingredient', 'wp-inci')
+                    'slug'     => __('ingredients', 'wp-inci')
 
                 )
             );
@@ -286,7 +286,7 @@ if (!class_exists('WP_Inci', false)) {
 
             register_extended_taxonomy(
                 'functions',
-                'ingredient',
+                'ingredients',
                 array(
                     'hierarchical' => false,
                     'labels'       => $functions_labels,
@@ -331,7 +331,7 @@ if (!class_exists('WP_Inci', false)) {
 
             register_extended_taxonomy(
                 'source',
-                'ingredient',
+                'ingredients',
                 array(
                     'public'       => false,
                     'labels'       => $source_labels,
@@ -453,7 +453,7 @@ if (!class_exists('WP_Inci', false)) {
             ];
 
             register_extended_post_type(
-                'product',
+                'products',
                 array(
                     'dashboard_activity' => true,
                     'menu_icon'          => 'dashicons-wi-menu',
@@ -468,6 +468,7 @@ if (!class_exists('WP_Inci', false)) {
                         'editor',
                         'author',
                         'revisions',
+                        'thumbnail',
                     ),
                     'admin_cols'         => array(
                         'title'     => array(
@@ -509,7 +510,7 @@ if (!class_exists('WP_Inci', false)) {
 
                     'singular' => __('Product', 'wp-inci'),
                     'plural'   => __('Products', 'wp-inci'),
-                    'slug'     => __('product', 'wp-inci'),
+                    'slug'     => __('products', 'wp-inci'),
 
                 )
             );
@@ -541,7 +542,7 @@ if (!class_exists('WP_Inci', false)) {
 
             register_extended_taxonomy(
                 'brand',
-                'product',
+                'products',
                 array(
                     'public'       => true,
                     'rewrite'      => true,
@@ -585,7 +586,7 @@ if (!class_exists('WP_Inci', false)) {
 
             $permalink = get_permalink($post);
 
-            $messages['ingredient'] = [
+            $messages['ingredients'] = [
                 0  => '', // Unused. Messages start at index 1.
                 /* translators: %s: post permalink */
                 1  => sprintf(__('Ingredient updated. <a target="_blank" href="%s">View Ingredient</a>', 'wp-inci'), esc_url($permalink)),
@@ -620,7 +621,7 @@ if (!class_exists('WP_Inci', false)) {
         public function ingredientBulkUpdatedMessages($bulk_messages, $bulk_counts)
         {
 
-            $bulk_messages['ingredient'] = [
+            $bulk_messages['ingredients'] = [
                 /* translators: %s: Number of Ingredients. */
                 'updated'   => _n('%s Ingredient updated.', '%s Ingredients updated.', $bulk_counts['updated'], 'wp-inci'),
                 'locked'    => (1 === $bulk_counts['locked']) ? __('1 Ingredient not updated, somebody is editing it.', 'wp-inci') :

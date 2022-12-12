@@ -245,7 +245,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
 
             $field_type->_desc(true, true);
 
-            echo '<a target="_blank" href="' . esc_url(admin_url('post-new.php?post_type=ingredient')) . '" class="button desc">' . __(
+            echo '<a target="_blank" href="' . esc_url(admin_url('post-new.php?post_type=ingredients')) . '" class="button desc">' . __(
                 'Add new ingredient',
                 'wp-inci'
             ) . '</a>';
@@ -471,7 +471,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
                 $ingredient_id = $wpdb->get_col(
                     "SELECT ID from $wpdb->posts 
                 WHERE ( post_title = '" . $name . "' OR post_title LIKE '" . $name . "%' OR post_content LIKE '%" . $name . "%')
-				AND post_type = 'ingredient' 
+				AND post_type = 'ingredients' 
 				AND post_status = 'publish' "
                 );
 
