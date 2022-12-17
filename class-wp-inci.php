@@ -201,6 +201,7 @@ if (!class_exists('WP_Inci', false)) {
                     'hierarchical'       => false,
                     'show_in_rest'       => true,
                     'block_editor'       => true,
+                    'dashboard_activity' => true,
                     'supports'           => array(
                         'title',
                         'editor',
@@ -288,7 +289,7 @@ if (!class_exists('WP_Inci', false)) {
                 'functions',
                 'ingredients',
                 array(
-                    'hierarchical' => false,
+                    'hierarchical' => true,
                     'labels'       => $functions_labels,
                     'public'       => false,
                     'show_in_rest' => true,
