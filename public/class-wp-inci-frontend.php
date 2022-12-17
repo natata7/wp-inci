@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Wp_Inci_Frontend
  *
@@ -8,7 +9,7 @@
  * @license  https://www.gnu.org/licenses/gpl-3.0.html GPL 3
  */
 
-if (! class_exists('Wp_Inci_Frontend', false) ) {
+if (!class_exists('Wp_Inci_Frontend', false)) {
     /**
      * Frontend Class
      *
@@ -30,7 +31,7 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
          */
         public function __construct()
         {
-            ( WP_Inci::getInstance() )->__construct();
+            (WP_Inci::getInstance())->__construct();
             $this->init();
         }
 
@@ -46,8 +47,9 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
              * Load the plugin text domain for frontend translation.
              */
             load_plugin_textdomain(
-                'wp-inci', false,
-                dirname(plugin_basename($this->plugin_file)) . '/languages/' 
+                'wp-inci',
+                false,
+                dirname(plugin_basename($this->plugin_file)) . '/languages/'
             );
 
             /**
@@ -55,13 +57,21 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
              */
             add_action(
                 'wp_enqueue_scripts',
-                array( $this, 'wiEnqueueStyle' )
+                array($this, 'wiEnqueueStyle')
             );
             add_filter(
-                'the_content', array( $this, 'wiContentIngredients' ),
-                10, 1 
+                'the_content',
+                array($this, 'wiContentIngredient'),
+                10,
+                1
             );
-            add_action('init', array( $this, 'wiAddProductShortcode' ));
+            add_filter(
+                'the_content',
+                array($this, 'wiContentProductIngredients'),
+                15,
+                1
+            );
+            add_action('init', array($this, 'wiAddProductShortcode'));
         }
 
         /**
@@ -72,14 +82,14 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
         public static function getInstanceFrontend(): ?Wp_Inci_Frontend
         {
 
-            if (null === self::$_instance ) {
+            if (null === self::$_instance) {
                 self::$_instance = new Wp_Inci_Frontend();
             }
 
             return self::$_instance;
         }
 
- /**
+        /**
          * Load the plugin text domain for translation.
          *
          * @return void
@@ -89,21 +99,19 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
 
             $disable_style = cmb2_get_option(
                 'wi_settings',
-                'wi_disable_style' 
+                'wi_disable_style'
             );
 
             wp_enqueue_style(
                 'wp-inci',
-                esc_url(plugins_url('css/wp-inci.min.css', __FILE__)) 
+                esc_url(plugins_url('css/wp-inci.min.css', __FILE__))
             );
 
-            if ($disable_style == 'on' ) {
+            if ($disable_style == 'on') {
                 wp_dequeue_style('wp-inci');
             }
-
-
         }
-        
+
         /**
          * Gets the HTML for a single ingredient.
          *
@@ -119,84 +127,84 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
             $output = false;
             $post   = get_post($ingredient);
 
-			if (null !== $post ) {
+            if (null !== $post) {
                 $functions      = '';
                 $functions_list = get_the_terms($post->ID, 'functions');
-                if ($functions_list && ! is_wp_error($functions_list) ) {
+                if ($functions_list && !is_wp_error($functions_list)) {
                     $functions = ' (' . implode(
                         ' / ',
-                        wp_list_pluck($functions_list, 'name') 
+                        wp_list_pluck($functions_list, 'name')
                     ) . ')';
                 }
-				
-				
-				$role      = get_post_meta ( $post->ID, 'role', true );
-				switch ($role){
-				case ('1') :
-				    $role_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Brightening-1cd9c2f5dcdd9edb1d023dc46c290121b78bc0db1f584eeba19c848d94d3756a.png" class="img-effects"><b>Освітлення</b></span>';
-				break;
-				case ('2') : 
-				    $role_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Promotes%20Wound%20Healing-e7a95d5590e806b332559c604d2a08f9a0b23aa88046873f0839a7495d7789f0.png" class="img-effects"><b>Заживлення</b></span>';
-				break;
-				case ('3') : 
-				    $role_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Anti-Aging-cd7044b572861dda33a4a0864e40999dacb6d34b942c19552b97209ce49ecf89.png" class="img-effects"><b>Антивікове</b></span>';
-				    break;
-				case ('4') : 
-				    $role_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Acne-Fighting-c4a8124526ac47a08077940f801808fdd24dea70946dfc7fa302db9a08bb23a5.png" class="img-effects"><b>Від акне</b></span>';
-				    break;
-				case ('5') : 
-				    $role_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/UV%20Protection-ce76a212f25a8942783f172ce9e87b3d4f3fa9abb72aa063650e904761211e39.png" class="img-effects"><b>Захист від сонця</b></span>';
-				    break;
-				}
-				
-				$skin_dry      = get_post_meta ( $post->ID, 'dry_skin', true );
-				if ($skin_dry == 'yes') {
-				    $skin_dry_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Good%20for%20Dry%20Skin-d2dfef08fa92d1495df55c3a365f6575defb82902ec61a676174db23cd21ec24.png">Рекомендовано для сухой кожи</span>';
-				}else if ($skin_dry == 'no') {
-				    $skin_dry_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Bad%20for%20Dry%20Skin-5c4f0f54faaa4703fc34c9538fc06db6b010aaf540640af3318dba340848ac4a.png">Не рекомендовано для сухої шкіри</span>';
-				}
-				
-				$skin_oil      = get_post_meta ( $post->ID, 'oil_skin', true );
-				if ($skin_oil == 'yes') {
-				    $skin_oil_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Good%20for%20Oily%20Skin-5cca69bb625f0c5b867a587dc7bce6ea3cbf84a0a2eb09e5fbfbcb678b146ef6.png">Рекомендовано для жирної шкіри / схильної до акне</span>';
-				}else if ($skin_oil == 'no') {
-				    $skin_oil_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Bad%20for%20Oily%20Skin-daa833ccc00dc766805ecb5bf27ab86ec32ef740872d2e6bce6c3ed5ba3329f1.png">Не рекомендовано для жирної шкіри / схильної до акне</span>';
-				}
-				
-				$skin_irritation      = get_post_meta ( $post->ID, 'irritation_skin', true );
-				if ($skin_irritation == 'yes') {
-				    $skin_irritation_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Good%20for%20Sensitive%20Skin-5ecac4dd1520ccf1437588c0a3f6d2c77d241053ef973fddaa051e2ce466c328.png">Рекомендовано для чутливої шкіри</span>';
-				}else if ($skin_irritation == 'no') {
-				    $skin_irritation_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Bad%20for%20Sensitive%20Skin-eeecb376f90cb387581dcd88ff76db89c02efe7bcbefd35404a947bc4c979960.png">Не рекомендовано для чутливої шкіри</span>';
-				}
-				$comedohenity      = get_post_meta ( $post->ID, 'comedohenity', true );
-				$irritancy      = get_post_meta ( $post->ID, 'irritancy', true );
 
-				
-				$output = '<tr><td>';
-                $output .= ( WP_Inci::getInstance() )->getSafetyHtml($post->ID);
+
+                $role      = get_post_meta($post->ID, 'role', true);
+                switch ($role) {
+                    case ('1'):
+                        $role_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Brightening-1cd9c2f5dcdd9edb1d023dc46c290121b78bc0db1f584eeba19c848d94d3756a.png" class="img-effects"><b>Освітлення</b></span>';
+                        break;
+                    case ('2'):
+                        $role_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Promotes%20Wound%20Healing-e7a95d5590e806b332559c604d2a08f9a0b23aa88046873f0839a7495d7789f0.png" class="img-effects"><b>Заживлення</b></span>';
+                        break;
+                    case ('3'):
+                        $role_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Anti-Aging-cd7044b572861dda33a4a0864e40999dacb6d34b942c19552b97209ce49ecf89.png" class="img-effects"><b>Антивікове</b></span>';
+                        break;
+                    case ('4'):
+                        $role_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Acne-Fighting-c4a8124526ac47a08077940f801808fdd24dea70946dfc7fa302db9a08bb23a5.png" class="img-effects"><b>Від акне</b></span>';
+                        break;
+                    case ('5'):
+                        $role_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/UV%20Protection-ce76a212f25a8942783f172ce9e87b3d4f3fa9abb72aa063650e904761211e39.png" class="img-effects"><b>Захист від сонця</b></span>';
+                        break;
+                }
+
+                $skin_dry      = get_post_meta($post->ID, 'dry_skin', true);
+                if ($skin_dry == 'yes') {
+                    $skin_dry_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Good%20for%20Dry%20Skin-d2dfef08fa92d1495df55c3a365f6575defb82902ec61a676174db23cd21ec24.png">Рекомендовано для сухої шкіри</span>';
+                } else if ($skin_dry == 'no') {
+                    $skin_dry_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Bad%20for%20Dry%20Skin-5c4f0f54faaa4703fc34c9538fc06db6b010aaf540640af3318dba340848ac4a.png">Не рекомендовано для сухої шкіри</span>';
+                }
+
+                $skin_oil      = get_post_meta($post->ID, 'oil_skin', true);
+                if ($skin_oil == 'yes') {
+                    $skin_oil_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Good%20for%20Oily%20Skin-5cca69bb625f0c5b867a587dc7bce6ea3cbf84a0a2eb09e5fbfbcb678b146ef6.png">Рекомендовано для жирної шкіри / схильної до акне</span>';
+                } else if ($skin_oil == 'no') {
+                    $skin_oil_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Bad%20for%20Oily%20Skin-daa833ccc00dc766805ecb5bf27ab86ec32ef740872d2e6bce6c3ed5ba3329f1.png">Не рекомендовано для жирної шкіри / схильної до акне</span>';
+                }
+
+                $skin_irritation      = get_post_meta($post->ID, 'irritation_skin', true);
+                if ($skin_irritation == 'yes') {
+                    $skin_irritation_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Good%20for%20Sensitive%20Skin-5ecac4dd1520ccf1437588c0a3f6d2c77d241053ef973fddaa051e2ce466c328.png">Рекомендовано для чутливої шкіри</span>';
+                } else if ($skin_irritation == 'no') {
+                    $skin_irritation_value = '<span class="badge"><img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Bad%20for%20Sensitive%20Skin-eeecb376f90cb387581dcd88ff76db89c02efe7bcbefd35404a947bc4c979960.png">Не рекомендовано для чутливої шкіри</span>';
+                }
+                $comedohenity      = get_post_meta($post->ID, 'comedohenity', true);
+                $irritancy      = get_post_meta($post->ID, 'irritancy', true);
+
+
+                $output = '<tr><td>';
+                $output .= (WP_Inci::getInstance())->getSafetyHtml($post->ID);
                 $output .= '</td><td>';
-                
-				//$output .= $post->post_title;
-				$output .= '<a title="' . $post->post_title . '" href="' . get_permalink( $post->ID) . '">';
-				$output .= $post->post_title;
-				$output   .= '</a><small class="functions">';
-				$output .= $functions;
-				$output .= '</small></td><td>';
-				$output .= $role_value;
-				$output .= '';
-				$output .= $skin_dry_value . $skin_oil_value . $skin_irritation_value;
-				$output .= '</td><td>';
-				$output .= $comedohenity;
-				$output .= '</td><td>';
-				$output .= $irritancy;
-				$output .= '</td></tr>';
-			}
 
-			return $output;
-		}
+                //$output .= $post->post_title;
+                $output .= '<a title="' . $post->post_title . '" href="' . get_permalink($post->ID) . '">';
+                $output .= $post->post_title;
+                $output   .= '</a><small class="functions">';
+                $output .= $functions;
+                $output .= '</small></td><td>';
+                $output .= $role_value;
+                $output .= '';
+                $output .= $skin_dry_value . $skin_oil_value . $skin_irritation_value;
+                $output .= '</td><td>';
+                $output .= $comedohenity;
+                $output .= '</td><td>';
+                $output .= $irritancy;
+                $output .= '</td></tr>';
+            }
 
-		/**
+            return $output;
+        }
+
+        /**
          * Gets the HTML for all ingredients.
          *
          * @param int    $post_id Post ID
@@ -210,9 +218,9 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
         ): string {
             $output      = '';
             $ingredients = get_post_meta($post_id, 'ingredients', true);
-            if (! empty($ingredients) ) {
+            if (!empty($ingredients)) {
                 $output .= '<table class="wp-inci"><tbody>';
-				$output .= '<tr><td>';
+                $output .= '<tr><td>';
                 $output .= __('Рейтинг безпеки', 'wp-inci');
                 $output .= '</td><td>';
                 $output .= __('Інгредієнти', 'wp-inci');
@@ -221,21 +229,21 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
                 $output .= '</td><td>';
                 $output .= __('Подразнюючість', 'wp-inci');
                 $output .= '</td></tr>';
-                
-				foreach ( $ingredients as $ingredient ) {
+
+                foreach ($ingredients as $ingredient) {
                     $output .= $this->getIngredient($ingredient, $safety);
                 }
 
-				$output .= '</tbody></table>';
-			}
+                $output .= '</tbody></table>';
+            }
 
-			$may_contain = get_post_meta($post_id, 'may_contain', true);
-            if (! empty($may_contain) ) {
+            $may_contain = get_post_meta($post_id, 'may_contain', true);
+            if (!empty($may_contain)) {
                 $output .= '<h4>' . __('MAY CONTAIN', 'wp-inci') . '</h4>';
                 $output .= '
 				<table class="wp-inci">
 						<tbody>';
-                foreach ( $may_contain as $may ) {
+                foreach ($may_contain as $may) {
                     $output .= $this->getIngredient($may, $safety);
                 }
 
@@ -243,7 +251,7 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
 					</table>';
             }
 
-			$output .= '<div class="disclaimer">' . cmb2_get_option(
+            $output .= '<div class="disclaimer">' . cmb2_get_option(
                 'wi_disclaimer',
                 'textarea_disclaimer',
                 $this->getDefaultDisclaimer()
@@ -251,65 +259,66 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
 
             return $output;
         }
-		
-		/**
-		 * Gets the analiz for all ingredients.
-		 *
-		 * @param $post_id
-		 *
-		 * @return string
-		 */
-		 
-		 public function get_analiz_sulfate ( $ingredient ) {
-			$output = false;
-			$post   = get_post( $ingredient );
-			
-			if ( null !== $post ) {
-				$it_is_sulfate = get_post_meta ( $post->ID, 'it_is_sulfate', true );
-				return $it_is_sulfate;
-			}	
 
-		}
-		
-		public function get_analiz_alcohol ( $ingredient ) {
-			$output = false;
-			$post   = get_post( $ingredient );
-			
-			if ( null !== $post ) {
-				$it_is_alcohol = get_post_meta ( $post->ID, 'it_is_alcohol', true );
-				return $it_is_alcohol;
-			}
-			
-		}
-		
-		public function get_analiz_paraben ( $ingredient ) {
-			$output = false;
-			$post   = get_post( $ingredient );
-			
-			if ( null !== $post ) {
-				$it_is_paraben = get_post_meta ( $post->ID, 'it_is_paraben', true );
-				return $it_is_paraben;
-			}
-			
-		}
-		
-		public function get_analiz_silicone ( $ingredient ) {
-			$output = false;
-			$post   = get_post( $ingredient );
-			
-			if ( null !== $post ) {
-				$it_is_silicone = get_post_meta ( $post->ID, 'it_is_silicone', true );
-				return $it_is_silicone;
-			}
-			
-		}
-		 
-		 
-		public function get_analiz_table( $post_id ): string {
-			$output      = '';
-			
-			$ingredients = get_post_meta( $post_id, 'ingredients', true );
-			if ( ! empty( $ingredients ) ) {
+        /**
+         * Gets the analiz for all ingredients.
+         *
+         * @param $post_id
+         *
+         * @return string
+         */
+
+        public function get_analiz_sulfate($ingredient)
+        {
+            $output = false;
+            $post   = get_post($ingredient);
+
+            if (null !== $post) {
+                $it_is_sulfate = get_post_meta($post->ID, 'it_is_sulfate', true);
+                return $it_is_sulfate;
+            }
+        }
+
+        public function get_analiz_alcohol($ingredient)
+        {
+            $output = false;
+            $post   = get_post($ingredient);
+
+            if (null !== $post) {
+                $it_is_alcohol = get_post_meta($post->ID, 'it_is_alcohol', true);
+                return $it_is_alcohol;
+            }
+        }
+
+        public function get_analiz_paraben($ingredient)
+        {
+            $output = false;
+            $post   = get_post($ingredient);
+
+            if (null !== $post) {
+                $it_is_paraben = get_post_meta($post->ID, 'it_is_paraben', true);
+                return $it_is_paraben;
+            }
+        }
+
+        public function get_analiz_silicone($ingredient)
+        {
+            $output = false;
+            $post   = get_post($ingredient);
+
+            if (null !== $post) {
+                $it_is_silicone = get_post_meta($post->ID, 'it_is_silicone', true);
+                return $it_is_silicone;
+            }
+        }
+
+
+        public function get_analiz_table($post_id): string
+        {
+            $output      = '';
+
+            $ingredients = get_post_meta($post_id, 'ingredients', true);
+            if (!empty($ingredients)) {
                 $it_is_alcohol_value = 2;
                 $it_is_alcohol_output;
                 $it_is_sulfate_value = 2;
@@ -318,153 +327,297 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
                 $it_is_paraben_output;
                 $it_is_silicone_value = 2;
                 $it_is_silicone_output;
-				$output .= '
+                $output .= '
 				<div class="row">';
-				
-				
-				foreach ( $ingredients as $ingredient ) {
-				    
-				    $it_is_paraben_value = $this->get_analiz_paraben( $ingredient );
-				    
-				    if ($it_is_paraben_value == '1') {
-				        break;
-			        }
-				    
-				};
-				
-				switch ($it_is_paraben_value) {
-				    case '1' :
-				        $it_is_paraben_output = '<span class="false">';
+
+
+                foreach ($ingredients as $ingredient) {
+
+                    $it_is_paraben_value = $this->get_analiz_paraben($ingredient);
+
+                    if ($it_is_paraben_value == '1') {
+                        break;
+                    }
+                };
+
+                switch ($it_is_paraben_value) {
+                    case '1':
+                        $it_is_paraben_output = '<span class="false">';
                         $it_is_paraben_output .= __('Містить парабени', 'wp-inci');
                         $it_is_paraben_output .= '</span>';
-				        break;
-				    case '2' :
+                        break;
+                    case '2':
                         $it_is_paraben_output = '<span class="true">';
                         $it_is_paraben_output .= __('Без парабенів', 'wp-inci');
                         $it_is_paraben_output .= '</span>';
-				        break;
-				}
-				
-				
-				foreach ( $ingredients as $ingredient ) {
-				    
-				    $it_is_silicone_value = $this->get_analiz_silicone( $ingredient );
-				    
-				    if ($it_is_silicone_value == '1') {
-				        break;
-			        }
-				    
-				};
-				
-				switch ($it_is_silicone_value) {
-				    case '1' :
+                        break;
+                }
+
+
+                foreach ($ingredients as $ingredient) {
+
+                    $it_is_silicone_value = $this->get_analiz_silicone($ingredient);
+
+                    if ($it_is_silicone_value == '1') {
+                        break;
+                    }
+                };
+
+                switch ($it_is_silicone_value) {
+                    case '1':
                         $it_is_silicone_output = '<span class="false">';
                         $it_is_silicone_output .= __('Містить силікони', 'wp-inci');
                         $it_is_silicone_output .= '</span>';
-				        break;
-				    case '2' :
-				        $it_is_silicone_output = '<span class="true">';
+                        break;
+                    case '2':
+                        $it_is_silicone_output = '<span class="true">';
                         $it_is_silicone_output .= __('Без силіконів', 'wp-inci');
                         $it_is_silicone_output .= '</span>';
-				        break;
-				}
-				
-				foreach ( $ingredients as $ingredient ) {
-				    
-				    $it_is_alcohol_value = $this->get_analiz_alcohol( $ingredient );
-				    
-				    if ($it_is_alcohol_value == '1') {
-				        break;
-			        }
-				    
-				};
-				
-				switch ($it_is_alcohol_value) {
-				    case '1' :
-				        $it_is_alcohol_output = '<span class="false">';
+                        break;
+                }
+
+                foreach ($ingredients as $ingredient) {
+
+                    $it_is_alcohol_value = $this->get_analiz_alcohol($ingredient);
+
+                    if ($it_is_alcohol_value == '1') {
+                        break;
+                    }
+                };
+
+                switch ($it_is_alcohol_value) {
+                    case '1':
+                        $it_is_alcohol_output = '<span class="false">';
                         $it_is_alcohol_output .= __('Містить алкоголь', 'wp-inci');
                         $it_is_alcohol_output .= '</span>';
-				        break;
-				    case '2' :
-				        $it_is_alcohol_output = '<span class="true">';
+                        break;
+                    case '2':
+                        $it_is_alcohol_output = '<span class="true">';
                         $it_is_alcohol_output .= __('Без алкоголю', 'wp-inci');
                         $it_is_alcohol_output .= '</span>';
-				        break;
-				}
-				
-				foreach ( $ingredients as $ingredient ) {
-				    
-				    $it_is_sulfate_value = $this->get_analiz_sulfate( $ingredient );
-				    
-				    if ($it_is_sulfate_value == '1') {
-				        break;
-			        }
-				    
-				};
-				
-				switch ($it_is_sulfate_value) {
-				    case '1' :
-				        $it_is_sulfate_output = '<span class="false">';
+                        break;
+                }
+
+                foreach ($ingredients as $ingredient) {
+
+                    $it_is_sulfate_value = $this->get_analiz_sulfate($ingredient);
+
+                    if ($it_is_sulfate_value == '1') {
+                        break;
+                    }
+                };
+
+                switch ($it_is_sulfate_value) {
+                    case '1':
+                        $it_is_sulfate_output = '<span class="false">';
                         $it_is_sulfate_output .= __('Містить сульфати', 'wp-inci');
                         $it_is_sulfate_output .= '</span>';
-				        break;
-				    case '2' :
-				        $it_is_sulfate_output = '<span class="true">';
+                        break;
+                    case '2':
+                        $it_is_sulfate_output = '<span class="true">';
                         $it_is_sulfate_output .= __('Без сульфатів', 'wp-inci');
                         $it_is_sulfate_output .= '</span>';
-				        break;
-				}
-				
-				$output .= '<div class="col-md-3 my-2">';
-				$output .= $it_is_paraben_output;
-				$output .= '</div><div class="col-md-3 my-2">';
-				$output .= $it_is_silicone_output;
-				$output .= '</div><div class="col-md-3 my-2">';
-				$output .= $it_is_sulfate_output;
-				$output .= '</div><div class="col-md-3 my-2">';
-				$output .= $it_is_alcohol_output;
-				$output .= '</div>';
+                        break;
+                }
 
-				$output .= '</div>';
-			}
-			return $output;
-		}
+                $output .= '<div class="col-md-3 my-2">';
+                $output .= $it_is_paraben_output;
+                $output .= '</div><div class="col-md-3 my-2">';
+                $output .= $it_is_silicone_output;
+                $output .= '</div><div class="col-md-3 my-2">';
+                $output .= $it_is_sulfate_output;
+                $output .= '</div><div class="col-md-3 my-2">';
+                $output .= $it_is_alcohol_output;
+                $output .= '</div>';
 
-		/**
+                $output .= '</div>';
+            }
+            return $output;
+        }
+
+        /**
+         * Gets the HTML for ingredient info table.
+         *
+         * @param int    $post_id Post ID
+         * @param string $safety  Show safety
+         *
+         * @return string
+         */
+        public function getIngredientInfo(
+            int $post_id,
+            string $safety = 'true'
+        ): string {
+
+
+            $skin_dry      = get_post_meta($post_id, 'dry_skin', true);
+            if ($skin_dry == 'yes') {
+                $skin_dry_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Good%20for%20Dry%20Skin-d2dfef08fa92d1495df55c3a365f6575defb82902ec61a676174db23cd21ec24.png">Рекомендовано для сухої шкіри';
+            } else if ($skin_dry == 'no') {
+                $skin_dry_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Bad%20for%20Dry%20Skin-5c4f0f54faaa4703fc34c9538fc06db6b010aaf540640af3318dba340848ac4a.png">Не рекомендовано для сухої шкіри';
+            }
+
+            $skin_oil      = get_post_meta($post_id, 'oil_skin', true);
+            if ($skin_oil == 'yes') {
+                $skin_oil_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Good%20for%20Oily%20Skin-5cca69bb625f0c5b867a587dc7bce6ea3cbf84a0a2eb09e5fbfbcb678b146ef6.png">Рекомендовано для жирної шкіри / схильної до акне';
+            } else if ($skin_oil == 'no') {
+                $skin_oil_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Bad%20for%20Oily%20Skin-daa833ccc00dc766805ecb5bf27ab86ec32ef740872d2e6bce6c3ed5ba3329f1.png">Не рекомендовано для жирної шкіри / схильної до акне';
+            }
+
+            $skin_irritation      = get_post_meta($post_id, 'irritation_skin', true);
+            if ($skin_irritation == 'yes') {
+                $skin_irritation_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Good%20for%20Sensitive%20Skin-5ecac4dd1520ccf1437588c0a3f6d2c77d241053ef973fddaa051e2ce466c328.png">Рекомендовано для чутливої шкіри';
+            } else if ($skin_irritation == 'no') {
+                $skin_irritation_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Bad%20for%20Sensitive%20Skin-eeecb376f90cb387581dcd88ff76db89c02efe7bcbefd35404a947bc4c979960.png">Не рекомендовано для чутливої шкіри';
+            }
+
+            $role_value = '';
+            $role      = get_post_meta($post_id, 'role', true);
+            switch ($role[0]) {
+                case ('1'):
+                    $role_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Brightening-1cd9c2f5dcdd9edb1d023dc46c290121b78bc0db1f584eeba19c848d94d3756a.png" class="img-effects"><b>Освітлення</b>';
+                    break;
+                case ('2'):
+                    $role_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Promotes%20Wound%20Healing-e7a95d5590e806b332559c604d2a08f9a0b23aa88046873f0839a7495d7789f0.png" class="img-effects"><b>Заживлення</b>';
+                    break;
+                case ('3'):
+                    $role_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Anti-Aging-cd7044b572861dda33a4a0864e40999dacb6d34b942c19552b97209ce49ecf89.png" class="img-effects"><b>Антивікове</b>';
+                    break;
+                case ('4'):
+                    $role_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/Acne-Fighting-c4a8124526ac47a08077940f801808fdd24dea70946dfc7fa302db9a08bb23a5.png" class="img-effects"><b>Від акне</b>';
+                    break;
+                case ('5'):
+                    $role_value = '<img class="img-label" src="https://www.skincarisma.com/assets/ingredients/icons/UV%20Protection-ce76a212f25a8942783f172ce9e87b3d4f3fa9abb72aa063650e904761211e39.png" class="img-effects"><b>Захист від сонця</b>';
+                    break;
+            }
+
+            $pseudonyms = get_post_meta($post_id, 'psev');
+            if ($pseudonyms && !is_wp_error($pseudonyms)) {
+                $pseudonyms_list = implode(
+                    ', ',
+                    $pseudonyms
+                );
+            }
+
+            $functions      = '';
+            $functions_list = get_the_terms($post_id, 'functions');
+            if ($functions_list && !is_wp_error($functions_list)) {
+                $functions = implode(
+                    ', ',
+                    wp_list_pluck($functions_list, 'name')
+                );
+            }
+
+            $comedohenity = get_post_meta($post_id, 'comedohenity', true);
+            $irritancy = get_post_meta($post_id, 'irritancy', true);
+
+            $output      = '';
+
+            if ($pseudonyms_list) {
+                $output .= '<div class="item"><div class="synonyms-title">';
+                $output .= __('Додаткові назви', 'wp-inci');
+                $output .= '</div><div class="synonyms-list">';
+                $output .= $pseudonyms_list;
+                $output .= '</div></div>';
+            }
+            if ($functions) {
+                $output .= '<div class="item-section"><div class="data-title">';
+                $output .= __('Застосування', 'wp-inci');
+                $output .= '</div>';
+                $output .= '<div class="synonyms-list">';
+                $output .= $functions;
+                $output .= '</div></div>';
+            }
+            
+            if ($role) {
+                $output .= '<div class="item-section"><div class="data-title">';
+                $output .= __('Ключова роль: ', 'wp-inci');
+                $output .= '</div><div class="item">';
+                $output .= $role_value;
+                $output .= '</div></div>';
+            }
+            $output .= '<div class="item-section"><div class="item">';
+            $output .= $skin_dry_value;
+            $output .= '</div><div class="item">';
+            $output .= $skin_oil_value;
+            $output .= '</div><div class="item">';
+            $output .= $skin_irritation_value;
+            $output .= '</div></div>';
+            if ($comedohenity) {
+                $output .= '<div class="item-section">';
+                $output .= __('Комедогенність: ', 'wp-inci');
+                $output .= $comedohenity;
+                $output .= '</div>';
+            }
+            if ($irritancy) {
+                $output .= '<div class="item-section">';
+                $output .= __('Подразнення: ', 'wp-inci');
+                $output .= $irritancy;
+                $output .= '</div>';
+            }
+
+            //$output .= '</div>';
+
+            return $output;
+        }
+
+        /**
+         * Show the info about ingredient.
+         *
+         * @param string $content Post content
+         *
+         * @return string $content
+         */
+        public function wiContentIngredient(string $content): string
+        {
+            global $post;
+            $output = '';
+
+            if (is_singular() && is_main_query()) {
+                if ($post->post_type == 'ingredients') {
+                    $output .= '<div class="wp-inci-block">' . $this->getIngredientInfo($post->ID) . '</div>';
+                }
+
+                return $output . $content;
+            }
+
+            return $content;
+        }
+
+        /**
          * Show the ingredients table into product content.
          *
          * @param string $content Post content
          *
          * @return string $content
          */
-        public function wiContentIngredients( string $content ): string
+        public function wiContentProductIngredients(string $content): string
         {
-			global $post;
-			$output = '';
+            global $post;
+            $output = '';
 
-			if ( is_singular() && is_main_query() ) {
-				if ( $post->post_type == 'products' ) {
-					$output = '<div class="wp-inci">' . $this->get_analiz_table( $post->ID ) . '</div>';
-					$output .= '<div class="wp-inci">' . $this->getIngredientsTable( $post->ID ) . '</div>';
-				}
+            if (is_singular() && is_main_query()) {
+                if ($post->post_type == 'products') {
+                    $output = '<div class="wp-inci">' . $this->get_analiz_table($post->ID) . '</div>';
+                    $output .= '<div class="wp-inci">' . $this->getIngredientsTable($post->ID) . '</div>';
+                }
 
-				return $content . $output;
-			}
+                return $content . $output;
+            }
 
-			return $content;
-		}
+            return $content;
+        }
 
-		/**
+        /**
          * Add the product shortcode.
          *
          * @return void
          */
         public function wiAddProductShortcode(): void
         {
-            if (! shortcode_exists('wp_inci_product') ) {
+            if (!shortcode_exists('wp_inci_product')) {
                 add_shortcode(
                     'wp_inci_product',
-                    array( $this, 'wiProductShortcode' )
+                    array($this, 'wiProductShortcode')
                 );
             }
         }
@@ -493,11 +646,11 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
             // Sets shortcode attributes with defaults.
             $atts = shortcode_atts(
                 array(
-                'id'     => 0,
-                'title'  => '',
-                'link'   => 'false',
-                'list'   => 'true',
-                'safety' => 'true',
+                    'id'     => 0,
+                    'title'  => '',
+                    'link'   => 'false',
+                    'list'   => 'true',
+                    'safety' => 'true',
                 ),
                 $atts,
                 $shortcode
@@ -505,7 +658,7 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
 
             $output = '';
 
-            if (0 !== $atts['id'] ) {
+            if (0 !== $atts['id']) {
 
                 $output .= '<div class="wp-inci">';
 
@@ -513,25 +666,25 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
                 $end   = '</h3>';
                 $title = esc_html(get_the_title($atts['id']));
 
-                if ('' !== $atts['title'] ) {
+                if ('' !== $atts['title']) {
                     $title = esc_html($atts['title']);
                 }
 
-                if ('true' === $atts['link'] ) {
+                if ('true' === $atts['link']) {
                     $start = '<h3><a title="' . $title . '" href="' . get_permalink($atts['id']) . '">';
                     $end   = '</a></h3>';
                 }
 
-				$output .= $start . $title . $end;
+                $output .= $start . $title . $end;
 
-                if ('true' === $atts['list'] ) {
+                if ('true' === $atts['list']) {
                     $output .= $this->getIngredientsTable(
                         $atts['id'],
-                        $atts['safety'] 
+                        $atts['safety']
                     );
                 }
 
-                if ('' !== $content ) {
+                if ('' !== $content) {
                     // Secure output by executing the_content filter hook on $content.
                     $output .= apply_filters('the_content', $content);
 
@@ -545,11 +698,10 @@ if (! class_exists('Wp_Inci_Frontend', false) ) {
             // Remove paragraphs around shortcode before output.
             return shortcode_unautop($output);
         }
-
     }
 
     add_action(
         'plugins_loaded',
-        array( 'Wp_Inci_Frontend', 'getInstanceFrontend' )
+        array('Wp_Inci_Frontend', 'getInstanceFrontend')
     );
 }
