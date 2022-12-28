@@ -396,10 +396,10 @@ if (!class_exists('WP_Inci_Fields', false)) {
             $nonce = $_POST['wicheck'];
             if (!wp_verify_nonce($nonce, 'cmb2_search_ajax_get_results')) {
                 die(json_encode(
-                        array(
-                            'error' => __('Error : Unauthorized action', 'wp-inci')
-                        )
-                    ));
+                    array(
+                        'error' => __('Error : Unauthorized action', 'wp-inci')
+                    )
+                ));
             }
 
             $args = json_decode(
@@ -413,7 +413,16 @@ if (!class_exists('WP_Inci_Fields', false)) {
                 2
             );
             $args['title_filter'] = $_POST['query'];
-            $data                 = array();
+            $args['title_filter_relation'] = 'OR';
+            $args['meta_query'] = [
+                'relation' => 'OR',
+                [
+                    'key' => 'psev',
+                    'value' =>  $_POST['query'],
+                    'compare' => 'LIKE'
+                ]
+            ];
+            $data = array();
 
             $results = new WP_Query($args);
             if ($results->have_posts()) :
@@ -451,10 +460,10 @@ if (!class_exists('WP_Inci_Fields', false)) {
                 'cmb2_multiple_search_ajax_get_results'
             )) {
                 die(json_encode(
-                        array(
-                            'error' => __('Error: Unauthorized action', 'wp-inci')
-                        )
-                    ));
+                    array(
+                        'error' => __('Error: Unauthorized action', 'wp-inci')
+                    )
+                ));
             }
 
             $string = '';
