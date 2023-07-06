@@ -5,7 +5,7 @@
  *
  * @category Plugin
  * @package  Wpinci
- * @author   chyta
+ * @author   natata7
  * @license  https://www.gnu.org/licenses/gpl-3.0.html GPL 3
  */
 
@@ -15,11 +15,10 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
      *
      * @category Plugin
      * @package  Wpinci
-     * @author   chyta
+     * @author   natata7
      * @license  https://www.gnu.org/licenses/gpl-3.0.html GPL 3
      */
-    class Wp_Inci_Frontend extends WP_Inci
-    {
+    class Wp_Inci_Frontend extends WP_Inci {
 
         /**
          * A static reference to track the single instance of this class.
@@ -29,8 +28,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
         /**
          * Constructor.
          */
-        public function __construct()
-        {
+        public function __construct() {
             (WP_Inci::getInstance())->__construct();
             $this->init();
         }
@@ -40,8 +38,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
          *
          * @return void
          */
-        public function init()
-        {
+        public function init() {
 
             /**
              * Load the plugin text domain for frontend translation.
@@ -79,8 +76,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
          *
          * @return Wp_Inci_Frontend|null
          */
-        public static function getInstanceFrontend(): ?Wp_Inci_Frontend
-        {
+        public static function getInstanceFrontend(): ?Wp_Inci_Frontend {
 
             if (null === self::$_instance) {
                 self::$_instance = new Wp_Inci_Frontend();
@@ -94,8 +90,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
          *
          * @return void
          */
-        public function wiEnqueueStyle(): void
-        {
+        public function wiEnqueueStyle(): void {
 
             $disable_style = cmb2_get_option(
                 'wi_settings',
@@ -268,8 +263,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
          * @return string
          */
 
-        public function get_analiz_sulfate($ingredient)
-        {
+        public function get_analiz_sulfate($ingredient) {
             $output = false;
             $post   = get_post($ingredient);
 
@@ -279,8 +273,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
             }
         }
 
-        public function get_analiz_alcohol($ingredient)
-        {
+        public function get_analiz_alcohol($ingredient) {
             $output = false;
             $post   = get_post($ingredient);
 
@@ -290,8 +283,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
             }
         }
 
-        public function get_analiz_paraben($ingredient)
-        {
+        public function get_analiz_paraben($ingredient) {
             $output = false;
             $post   = get_post($ingredient);
 
@@ -301,8 +293,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
             }
         }
 
-        public function get_analiz_silicone($ingredient)
-        {
+        public function get_analiz_silicone($ingredient) {
             $output = false;
             $post   = get_post($ingredient);
 
@@ -313,8 +304,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
         }
 
 
-        public function get_analiz_table($post_id): string
-        {
+        public function get_analiz_table($post_id): string {
             $output      = '';
 
             $ingredients = get_post_meta($post_id, 'ingredients', true);
@@ -527,7 +517,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
                 $output .= $functions;
                 $output .= '</div></div>';
             }
-            
+
             if ($role) {
                 $output .= '<div class="item-section"><div class="data-title">';
                 $output .= __('Ключова роль: ', 'wp-inci');
@@ -567,8 +557,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
          *
          * @return string $content
          */
-        public function wiContentIngredient(string $content): string
-        {
+        public function wiContentIngredient(string $content): string {
             global $post;
             $output = '';
 
@@ -590,8 +579,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
          *
          * @return string $content
          */
-        public function wiContentProductIngredients(string $content): string
-        {
+        public function wiContentProductIngredients(string $content): string {
             global $post;
             $output = '';
 
@@ -612,8 +600,7 @@ if (!class_exists('Wp_Inci_Frontend', false)) {
          *
          * @return void
          */
-        public function wiAddProductShortcode(): void
-        {
+        public function wiAddProductShortcode(): void {
             if (!shortcode_exists('wp_inci_product')) {
                 add_shortcode(
                     'wp_inci_product',

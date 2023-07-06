@@ -5,7 +5,7 @@
  *
  * @category Plugin
  * @package  Wpinci
- * @author   chyta
+ * @author   natata7
  * @license  https://www.gnu.org/licenses/gpl-3.0.html GPL 3
  */
 if (!class_exists('WP_Inci_Fields', false)) {
@@ -14,11 +14,10 @@ if (!class_exists('WP_Inci_Fields', false)) {
      *
      * @category Plugin
      * @package  Wpinci
-     * @author   chyta
+     * @author   natata7
      * @license  https://www.gnu.org/licenses/gpl-3.0.html GPL 3
      */
-    class WP_Inci_Fields extends WP_Inci
-    {
+    class WP_Inci_Fields extends WP_Inci {
 
         /**
          * A static reference to track the single instance of this class.
@@ -28,8 +27,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
         /**
          * Constructor.
          */
-        public function __construct()
-        {
+        public function __construct() {
             (WP_Inci::getInstance())->__construct();
             $this->init();
             $this->url = plugins_url("", __FILE__);
@@ -40,8 +38,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
          *
          * @return void
          */
-        public function init()
-        {
+        public function init() {
             /**
              * Add hooks and queue.
              */
@@ -89,8 +86,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
          *
          * @return WP_Inci_Fields|null
          */
-        public static function getInstanceFields()
-        {
+        public static function getInstanceFields() {
 
             if (null === self::$_instance) {
                 self::$_instance = new WP_Inci_Fields();
@@ -107,8 +103,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
          *
          * @return string
          */
-        public function setTitleFilter($where, $wp_query)
-        {
+        public function setTitleFilter($where, $wp_query) {
 
             global $wpdb;
             if ($search_term = $wp_query->get('title_filter')) :
@@ -177,8 +172,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
          *
          * @return void
          */
-        public function adminFooter()
-        {
+        public function adminFooter() {
             global $_wp_admin_css_colors;
             if (!empty($_wp_admin_css_colors[get_user_option('admin_color')])) {
                 $scheme_colors = $_wp_admin_css_colors[get_user_option('admin_color')]->colors;
@@ -300,7 +294,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
                         $safety = (WP_Inci::getInstance())->getSafetyHtml($val);
                         $title  = '<div class="wi_wrapper">' . $safety . '<div class="wi_value">' . $title . '</div></div>';
 
-                        echo '<li><input type="hidden" name="' . $field_name . '_results[]" value="' . $val . '">' . $handle . '<a href="' . $guid . '" target="_blank" class="edit-link">' . $title . '</a><a class="remover"><span class="dashicons dashicons-no"></span><span class="dashicons dashicons-dismiss"></span></a></li>';
+                        echo '<li><span class="handle"></span><input type="hidden" name="' . $field_name . '_results[]" value="' . $val . '">' . $handle . '<a href="' . $guid . '" target="_blank" class="edit-link">' . $title . '</a><a class="remover"><span class="dashicons dashicons-no"></span><span class="dashicons dashicons-dismiss"></span></a></li>';
                     }
                 }
                 echo '</ol>';
@@ -340,8 +334,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
          *
          * @return void
          */
-        public function setupAdminScripts()
-        {
+        public function setupAdminScripts() {
             wp_register_script(
                 'jquery-autocomplete',
                 $this->url . '/admin/js/jquery.autocomplete.min.js',
@@ -391,8 +384,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
          *
          * @return void
          */
-        public function cmb2SearchAjaxGetResults()
-        {
+        public function cmb2SearchAjaxGetResults() {
             $nonce = $_POST['wicheck'];
             if (!wp_verify_nonce($nonce, 'cmb2_search_ajax_get_results')) {
                 die(json_encode(
@@ -450,8 +442,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
          *
          * @return void
          */
-        public function cmb2MultipleSearchAjaxGetResults()
-        {
+        public function cmb2MultipleSearchAjaxGetResults() {
             global $wpdb;
 
             $nonce = $_POST['wimucheck'];
@@ -510,8 +501,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
          *
          * @return string
          */
-        public function setResults($post_id, $field_id): string
-        {
+        public function setResults($post_id, $field_id): string {
             $post = get_post($post_id);
 
             $guid   = get_edit_post_link($post->ID);

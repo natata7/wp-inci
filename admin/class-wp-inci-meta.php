@@ -5,7 +5,7 @@
  *
  * @category Plugin
  * @package  Wpinci
- * @author   chyta
+ * @author   natata7
  * @license  https://www.gnu.org/licenses/gpl-3.0.html GPL 3
  */
 if (!class_exists('WP_Inci_Meta', false)) {
@@ -14,11 +14,10 @@ if (!class_exists('WP_Inci_Meta', false)) {
      *
      * @category Plugin
      * @package  Wpinci
-     * @author   chyta
+     * @author   natata7
      * @license  https://www.gnu.org/licenses/gpl-3.0.html GPL 3
      */
-    class WP_Inci_Meta extends WP_Inci
-    {
+    class WP_Inci_Meta extends WP_Inci {
 
         /**
          * A static reference to track the single instance of this class.
@@ -30,8 +29,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @since 1.0
          */
-        public function __construct()
-        {
+        public function __construct() {
             (WP_Inci::getInstance())->__construct();
             $this->init();
             $this->url = plugins_url("", __FILE__);
@@ -42,8 +40,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function init()
-        {
+        public function init() {
             /**
              * Include and setup custom meta boxes and fields.
              */
@@ -63,8 +60,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return WP_Inci_Meta|null
          */
-        public static function getInstanceMeta()
-        {
+        public static function getInstanceMeta() {
 
             if (null === self::$_instance) {
                 self::$_instance = new WP_Inci_Meta();
@@ -78,8 +74,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function registerSourceUrl()
-        {
+        public function registerSourceUrl() {
 
             $cmb_term = new_cmb2_box(
                 array(
@@ -107,8 +102,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function registerIngredientsRepeater()
-        {
+        public function registerIngredientsRepeater() {
 
             $ingredients = new_cmb2_box(
                 array(
@@ -177,8 +171,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function registerSafetySelect()
-        {
+        public function registerSafetySelect() {
 
             $safety = new_cmb2_box(
                 array(
@@ -416,8 +409,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function beforeSafety($field_args, $field)
-        {
+        public function beforeSafety($field_args, $field) {
             echo (WP_Inci::getInstance())->getSafetyHtml($field->object_id);
         }
 
@@ -431,8 +423,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return bool
          */
-        public function connect($url, $method, $context, $fields = null)
-        {
+        public function connect($url, $method, $context, $fields = null) {
 
             if (false === ($credentials = request_filesystem_credentials($url, $method, false, $context, $fields))) {
                 return false;
@@ -452,8 +443,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return string
          */
-        public function defaultStyle()
-        {
+        public function defaultStyle() {
             global $wp_filesystem;
 
             $url = wp_nonce_url("options-general.php?page=settings");
@@ -482,8 +472,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function copyButton()
-        {
+        public function copyButton() {
             echo "<script>var wi_style=`" . $this->defaultStyle() . "`;";
             echo "var wi_msg='" . __('Style copied to clipboard.', 'wp-inci') . "';</script>";
             echo '<button id="copy_style" type="button" class="button copy">' . __('Copy style', 'wp-inci') . '</button><span id="msg"></span>';
@@ -494,8 +483,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function registerPageSettings()
-        {
+        public function registerPageSettings() {
 
             $args = array(
                 'id'           => 'wi_settings',
@@ -594,8 +582,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function removeMenuPage()
-        {
+        public function removeMenuPage() {
             remove_submenu_page('options-general.php', 'wi_disclaimer');
         }
 
@@ -606,8 +593,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return string
          */
-        public function selectOtherMenu($parent_file)
-        {
+        public function selectOtherMenu($parent_file) {
             global $plugin_page;
 
             if ('wi_disclaimer' === $plugin_page) {
@@ -626,8 +612,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function optionsPageMessageCallback($cmb, $args)
-        {
+        public function optionsPageMessageCallback($cmb, $args) {
             if (!empty($args['should_notify'])) {
 
                 if (('updated' == $args['type']) || ('notice-warning' == $args['type'])) {
@@ -643,8 +628,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function registerBrandMetabox()
-        {
+        public function registerBrandMetabox() {
 
             $brand = new_cmb2_box(
                 array(
@@ -675,8 +659,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function removeGutenbergTips()
-        {
+        public function removeGutenbergTips() {
             global $pagenow;
 
             if ('post.php' == $pagenow && isset($_GET['post'])) {
@@ -704,8 +687,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
          *
          * @return void
          */
-        public function disableEditorFullscreen()
-        {
+        public function disableEditorFullscreen() {
             global $pagenow;
 
             if ('post.php' == $pagenow && isset($_GET['post'])) {

@@ -5,7 +5,7 @@
  *
  * @category Plugin
  * @package  Wpinci
- * @author   chyta
+ * @author   natata7
  * @license  https://www.gnu.org/licenses/gpl-3.0.html GPL 3
  */
 if (!class_exists('WP_Inci', false)) {
@@ -14,11 +14,10 @@ if (!class_exists('WP_Inci', false)) {
      *
      * @category Plugin
      * @package  Wpinci
-     * @author   chyta
+     * @author   natata7
      * @license  https://www.gnu.org/licenses/gpl-3.0.html GPL 3
      */
-    class WP_Inci
-    {
+    class WP_Inci {
 
         /**
          * A static reference to track the single instance of this class.
@@ -89,8 +88,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @since 1.0
          */
-        public function __construct()
-        {
+        public function __construct() {
             $this->init();
             /**
              * Split version for more detail.
@@ -111,8 +109,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return void
          */
-        public function init()
-        {
+        public function init() {
             /**
              * Add Custom Post Types and Taxonomies.
              */
@@ -131,8 +128,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return WP_Inci|null
          */
-        public static function getInstance()
-        {
+        public static function getInstance() {
 
             if (null === self::$_instance) {
                 self::$_instance = new WP_Inci();
@@ -146,8 +142,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return void
          */
-        public function postTypeInit()
-        {
+        public function postTypeInit() {
             $this->ingredientsPostType();
             $this->productsPostType();
         }
@@ -157,8 +152,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return void
          */
-        public function ingredientsPostType()
-        {
+        public function ingredientsPostType() {
 
             $ingredients_labels = [
                 'name'                  => __('Ingredients', 'wp-inci'),
@@ -371,8 +365,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return string
          */
-        public function getSafetyHtml($post_id)
-        {
+        public function getSafetyHtml($post_id) {
 
             $safety = $this->getSafetyValue($post_id);
 
@@ -386,8 +379,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return array $safety
          */
-        public function getSafetyValue($post_id)
-        {
+        public function getSafetyValue($post_id) {
 
             $safety = get_post_meta($post_id, 'safety', true);
 
@@ -422,8 +414,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return void
          */
-        public function productsPostType()
-        {
+        public function productsPostType() {
 
             $product_labels = [
                 'name'                  => __('Products', 'wp-inci'),
@@ -566,8 +557,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return string
          */
-        public function getDefaultDisclaimer()
-        {
+        public function getDefaultDisclaimer() {
             return __(
                 "The evaluation of these ingredients reflects the opinion of the author, who is not a specialist in this field. This evaluation is based on some online databases (e.g. <a title=\"CosIng - Cosmetic ingredients database\" href=\"https://ec.europa.eu/growth/sectors/cosmetics/cosing/\" target=\"_blank\">CosIng</a>).",
                 'wp-inci'
@@ -581,8 +571,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return array Messages for the `ingredient` post type.
          */
-        public function ingredientUpdatedMessages($messages)
-        {
+        public function ingredientUpdatedMessages($messages) {
             global $post;
 
             $permalink = get_permalink($post);
@@ -619,8 +608,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return array Bulk messages for the `ingredient` post type.
          */
-        public function ingredientBulkUpdatedMessages($bulk_messages, $bulk_counts)
-        {
+        public function ingredientBulkUpdatedMessages($bulk_messages, $bulk_counts) {
 
             $bulk_messages['ingredients'] = [
                 /* translators: %s: Number of Ingredients. */
@@ -646,8 +634,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return array Messages for the `product` post type.
          */
-        public function productUpdatedMessages($messages)
-        {
+        public function productUpdatedMessages($messages) {
             global $post;
 
             $permalink = get_permalink($post);
@@ -684,8 +671,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return array Bulk messages for the `product` post type.
          */
-        public function productBulkUpdatedMessages($bulk_messages, $bulk_counts)
-        {
+        public function productBulkUpdatedMessages($bulk_messages, $bulk_counts) {
 
             $bulk_messages['product'] = [
                 /* translators: %s: Number of Products. */
@@ -711,8 +697,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return array Messages for the `function` taxonomy.
          */
-        public function functionUpdatedMessages($messages)
-        {
+        public function functionUpdatedMessages($messages) {
 
             $messages['function'] = [
                 0 => '', // Unused. Messages start at index 1.
@@ -734,8 +719,7 @@ if (!class_exists('WP_Inci', false)) {
          *
          * @return array Messages for the `source` taxonomy.
          */
-        public function sourceUpdatedMessages($messages)
-        {
+        public function sourceUpdatedMessages($messages) {
 
             $messages['source'] = [
                 0 => '', // Unused. Messages start at index 1.
@@ -757,8 +741,7 @@ if (!class_exists('WP_Inci', false)) {
          * 
          * @return array Messages for the `brand` taxonomy.
          */
-        public function brandUpdatedMessages($messages)
-        {
+        public function brandUpdatedMessages($messages) {
 
             $messages['brand'] = [
                 0 => '', // Unused. Messages start at index 1.

@@ -1,22 +1,22 @@
 <?php
 
 /**
- * WP INCI
+ * INCI
  *
  * @category  Plugin
- * @package   Wpinci
- * @author    chyta
- * @copyright 2022 chyta
+ * @package   WPinci
+ * @author    natata7
+ * @copyright 2023 natata7
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL 3
  *
  * @wordpress-plugin
  * Plugin Name:       WP INCI
  * Description:       A WordPress plugin to manage INCI (International Nomenclature of Cosmetic Ingredients).
- * Version:           1.6.1
+ * Version:           1.6.2
  * Requires at least: 5.2
  * Requires PHP:      7.4
- * Author:            chyta
- * Author URI:        https://chyta.online
+ * Author:            natata7
+ * Author URI:        https://github.com/natata7
  * License:           GPLv3+
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       wp-inci

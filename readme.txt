@@ -1,21 +1,18 @@
 === WP INCI ===
-Contributors: chyta
+Contributors: natata7
 Tags: inci, ingredients, cosmetics, make-up
 Requires at least: 5.2
 Tested up to: 6.1
-Stable tag: 5.2
 Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-
-A WordPress plugin to manage INCI (International Nomenclature of Cosmetic Ingredients).
 
 == Description ==
 
 A WordPress plugin to manage INCI (International Nomenclature of Cosmetic Ingredients). You can set up your database of ingredients and products and easily insert a product table into posts and pages using a shortcode.
 There is an example product with ingredients into the `data` directory that can be imported using the standard WordPress Importer.
 
-= Plugin Features =
+= Features =
 
 * Custom Post Type Ingredient: it comes with a function list, a source list and a visual safety field.
 * Custom Post Type Product: it comes with a brand taxonomy.
@@ -33,15 +30,8 @@ If you need a different way to display it, you can:
     4. remove the safety from ingredients listing
     Example: [wp_inci_product id="33591" safety="false"]
 
-* Languages: English, Italian.
-
 == Credits ==
 * [CMB2](https://en-gb.wordpress.org/plugins/cmb2/) by [CMB2 team](https://cmb2.io/)
 * [Extended CPTs](https://github.com/johnbillion/extended-cpts) by [John Blackbourn](https://johnblackbourn.com/)
 * [Carbon Fields](https://github.com/htmlburger/carbon-fields) by [htmlBurger](https://htmlburger.com/)
 
-== Frequently Asked Questions ==
-
-= Can I translate the plugin interface? =
-
-Yes, just use the .POT file in the `languages` folder.

@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'chyta/wp-inci',
+        'name' => 'natata7/wp-inci',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
         'reference' => '5686662ccc772501cfda46ff0c53ada375d6ccee',
@@ -10,7 +10,7 @@
         'dev' => true,
     ),
     'versions' => array(
-        'chyta/wp-inci' => array(
+        'natata7/wp-inci' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
             'reference' => '5686662ccc772501cfda46ff0c53ada375d6ccee',

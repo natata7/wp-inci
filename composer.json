@@ -1,5 +1,5 @@
 {
-  "name": "chyta/wp-inci",
+  "name": "natata7/wp-inci",
   "description": "A WordPress plugin to manage INCI",
   "keywords": [
     "WordPress",
@@ -7,8 +7,8 @@
   ],
   "authors": [
     {
-      "name": "chyta",
-      "homepage": "https://chyta.online"
+      "name": "natata7",
+      "homepage": "https://github.com/natata7"
     }
   ],
   "extra": {
