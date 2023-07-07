@@ -48,15 +48,19 @@
                         const lid = $(this).attr('id') + '_results';
                         const limit = $(this).attr('data-limit');
                         const sortable = $(this).attr('data-sortable');
-                        if ( 1 !== limit ) {
-                            const handle = (sortable === 1) ? '<span class="handle"></span>' : '';
+                        if (1 !== limit) {
+                            
+                            const handle = (sortable === '1') ? '<span class="handle"></span>' : '';
+
                             $('#' + lid).append('<li>' + handle + '<input type="hidden" name="' + lid + '[]" value="' + suggestion.data + '"><a href="' + suggestion.guid + '" target="_blank" class="edit-link"><div class="wi_wrapper">' + suggestion.safety + '<div class="wi_value">' + suggestion.value + '</div></div></a><a class="remover"><span class="dashicons dashicons-no"></span><span class="dashicons dashicons-dismiss"></span></a></li>');
                             $(this).val('');
+
                             if ( limit === $('#' + lid + ' li').length ) {
                                 $(this).prop('disabled', 'disabled');
                             } else {
                                 $(this).focus();
                             }
+                            
                         } else {
                             $('input[name=' + lid + ']').val(suggestion.data);
                         }

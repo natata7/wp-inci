@@ -188,14 +188,14 @@ if (!class_exists('WP_Inci_Meta', false)) {
              * Create pseudonimus field.
              */
             $safety->add_field(array(
-                'name' => __('Дополнительные названия', 'wp-inci'),
+                'name' => __('Additional names', 'wp-inci'),
                 'id'   => 'psev',
                 'type' => 'text_small',
                 'show_in_rest' => WP_REST_Server::ALLMETHODS,
             ));
 
             $safety->add_field(array(
-                'name'             => 'Ключевая роль',
+                'name'             => 'Role',
                 'id'               => 'role',
                 'type'             => 'multicheck',
                 'show_option_none' => true,
@@ -246,7 +246,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
              * Create the dry skin field.
              */
             $safety->add_field(array(
-                'name' => __('Совместимость с сухой кожей', 'wp-inci'),
+                'name' => __('Dry skin compatibility', 'wp-inci'),
                 'id'   => 'dry_skin',
                 'type' => 'radio_inline',
                 'options' => array(
@@ -260,7 +260,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
              * Create the oil skin field.
              */
             $safety->add_field(array(
-                'name' => __('Совместимость с жирной кожей', 'wp-inci'),
+                'name' => __('Oily skin compatibility', 'wp-inci'),
                 'id'   => 'oil_skin',
                 'type' => 'radio_inline',
                 'options' => array(
@@ -274,7 +274,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
              * Create the irritation skin field.
              */
             $safety->add_field(array(
-                'name' => __('Совместимость с чувствительной кожей', 'wp-inci'),
+                'name' => __('Compatible with sensitive skin', 'wp-inci'),
                 'id'   => 'irritation_skin',
                 'type' => 'radio_inline',
                 'options' => array(
@@ -288,7 +288,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
              * Create the Paraben field.
              */
             $safety->add_field(array(
-                'name' => __('Это парабен?', 'wp-inci'),
+                'name' => __('Is it paraben?', 'wp-inci'),
                 'id'   => 'it_is_paraben',
                 'type' => 'radio_inline',
                 'options' => array(
@@ -303,7 +303,7 @@ if (!class_exists('WP_Inci_Meta', false)) {
              * Create the Silicone field.
              */
             $safety->add_field(array(
-                'name' => __('Это силикон?', 'wp-inci'),
+                'name' => __('Is it silicone?', 'wp-inci'),
                 'id'   => 'it_is_silicone',
                 'type' => 'radio_inline',
                 'options' => array(

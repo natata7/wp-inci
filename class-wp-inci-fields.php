@@ -294,7 +294,7 @@ if (!class_exists('WP_Inci_Fields', false)) {
                         $safety = (WP_Inci::getInstance())->getSafetyHtml($val);
                         $title  = '<div class="wi_wrapper">' . $safety . '<div class="wi_value">' . $title . '</div></div>';
 
-                        echo '<li><span class="handle"></span><input type="hidden" name="' . $field_name . '_results[]" value="' . $val . '">' . $handle . '<a href="' . $guid . '" target="_blank" class="edit-link">' . $title . '</a><a class="remover"><span class="dashicons dashicons-no"></span><span class="dashicons dashicons-dismiss"></span></a></li>';
+                        echo '<li><input type="hidden" name="' . $field_name . '_results[]" value="' . $val . '">' . $handle . '<a href="' . $guid . '" target="_blank" class="edit-link">' . $title . '</a><a class="remover"><span class="dashicons dashicons-no"></span><span class="dashicons dashicons-dismiss"></span></a></li>';
                     }
                 }
                 echo '</ol>';
