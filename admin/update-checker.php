@@ -2,10 +2,9 @@
 
 defined('ABSPATH') || exit;
 
+if (!class_exists('Inci_Update_Checker')) {
 
-if (!class_exists('WP_Inci_Update_Checker')) {
-
-    class WP_Inci_Update_Checker {
+    class Inci_Update_Checker {
 
         private $file;
 
@@ -174,5 +173,4 @@ if (!class_exists('WP_Inci_Update_Checker')) {
         }
     }
 
- 
 }

@@ -58,4 +58,4 @@ if (!class_exists('Mistape_Update_Checker')) {
     include_once(WPINCI_BASE_PATH . 'admin/update-checker.php');
 }
 
-$updater = new WP_Inci_Update_Checker(WPINCI_BASE_PATH);
+$updater = new Inci_Update_Checker(__FILE__);
