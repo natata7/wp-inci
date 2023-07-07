@@ -10,7 +10,7 @@
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL 3
  *
  * @wordpress-plugin
- * Plugin Name:       WP INCI
+ * Plugin Name:       INCI
  * Description:       A WordPress plugin to manage INCI (International Nomenclature of Cosmetic Ingredients).
  * Version:           1.0
  * Requires at least: 5.2
@@ -36,26 +36,26 @@ define('WPINCI_BASE_PATH', plugin_dir_path(__FILE__));
 define('WPINCI_BASE_URL', plugins_url());
 
 require_once WPINCI_BASE_PATH . 'vendor/autoload.php';
-if ( ! defined( 'CMB2_VERSION' ) ) {
-	require_once WPINCI_BASE_PATH . 'vendor/cmb2/cmb2/init.php';
+if (!defined('CMB2_VERSION')) {
+    require_once WPINCI_BASE_PATH . 'vendor/cmb2/cmb2/init.php';
 }
 require_once WPINCI_BASE_PATH . 'class-wp-inci.php';
 require_once WPINCI_BASE_PATH . 'class-wp-inci-fields.php';
-require_once WPINCI_BASE_PATH . 'admin/update-checker.php' ;
+require_once WPINCI_BASE_PATH . 'admin/update-checker.php';
 
 if (is_admin()) {
     include_once WPINCI_BASE_PATH . 'admin/class-wp-inci-admin.php';
-	include_once WPINCI_BASE_PATH . 'admin/class-wp-inci-meta.php';
+    include_once WPINCI_BASE_PATH . 'admin/class-wp-inci-meta.php';
 } else {
     include_once WPINCI_BASE_PATH . 'public/class-wp-inci-frontend.php';
 }
 
-foreach (glob( WPINCI_BASE_PATH . "blocks/*.php") as $filename) {
+foreach (glob(WPINCI_BASE_PATH . "blocks/*.php") as $filename) {
     include_once $filename;
 }
 
-if( ! class_exists( 'Mistape_Update_Checker' ) ){
-	include_once( WPINCI_BASE_PATH . 'admin/update-checker.php' );
+if (!class_exists('Mistape_Update_Checker')) {
+    include_once(WPINCI_BASE_PATH . 'admin/update-checker.php');
 }
 
-$updater = new WP_Inci_Update_Checker( WPINCI_BASE_PATH );
+$updater = new WP_Inci_Update_Checker(WPINCI_BASE_PATH);
