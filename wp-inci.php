@@ -12,7 +12,7 @@
  * @wordpress-plugin
  * Plugin Name:       WP INCI
  * Description:       A WordPress plugin to manage INCI (International Nomenclature of Cosmetic Ingredients).
- * Version:           1.6.2
+ * Version:           1.0
  * Requires at least: 5.2
  * Requires PHP:      7.4
  * Author:            natata7
@@ -27,10 +27,6 @@
  * the Free Software Foundation, either version 2 of the License, or
  * any later version.
  *
- * WP INCI is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
  * along with WP INCI. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
@@ -39,18 +35,27 @@
 define('WPINCI_BASE_PATH', plugin_dir_path(__FILE__));
 define('WPINCI_BASE_URL', plugins_url());
 
-require_once __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/vendor/cmb2/cmb2/init.php';
-require_once __DIR__ . '/class-wp-inci.php';
-require_once __DIR__ . '/class-wp-inci-fields.php';
+require_once WPINCI_BASE_PATH . 'vendor/autoload.php';
+if ( ! defined( 'CMB2_VERSION' ) ) {
+	require_once WPINCI_BASE_PATH . 'vendor/cmb2/cmb2/init.php';
+}
+require_once WPINCI_BASE_PATH . 'class-wp-inci.php';
+require_once WPINCI_BASE_PATH . 'class-wp-inci-fields.php';
+require_once WPINCI_BASE_PATH . 'admin/update-checker.php' ;
 
 if (is_admin()) {
-    include_once __DIR__ . '/admin/class-wp-inci-admin.php';
-    include_once __DIR__ . '/admin/class-wp-inci-meta.php';
+    include_once WPINCI_BASE_PATH . 'admin/class-wp-inci-admin.php';
+	include_once WPINCI_BASE_PATH . 'admin/class-wp-inci-meta.php';
 } else {
-    include_once __DIR__ . '/public/class-wp-inci-frontend.php';
+    include_once WPINCI_BASE_PATH . 'public/class-wp-inci-frontend.php';
 }
 
-foreach (glob(__DIR__ . "/blocks/*.php") as $filename) {
+foreach (glob( WPINCI_BASE_PATH . "blocks/*.php") as $filename) {
     include_once $filename;
 }
+
+if( ! class_exists( 'Mistape_Update_Checker' ) ){
+	include_once( WPINCI_BASE_PATH . 'admin/update-checker.php' );
+}
+
+$updater = new WP_Inci_Update_Checker( WPINCI_BASE_PATH );
