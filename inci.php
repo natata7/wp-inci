@@ -12,7 +12,7 @@
  * @wordpress-plugin
  * Plugin Name:       INCI
  * Description:       A WordPress plugin to manage INCI (International Nomenclature of Cosmetic Ingredients).
- * Version:           1.0
+ * Version:           1.0.5
  * Requires at least: 5.2
  * Requires PHP:      7.4
  * Author:            natata7
